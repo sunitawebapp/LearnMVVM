@@ -5,17 +5,26 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.ViewModel
+import androidx.recyclerview.widget.RecyclerView
+import com.sunitawebapp.learnmvvm.Models.DetailsLists
 import com.sunitawebapp.learnmvvm.R
+import com.sunitawebapp.learnmvvm.adapter.DetailsAdapter
+import com.sunitawebapp.learnmvvm.databinding.FragmentHomeBinding
+import com.sunitawebapp.learnmvvm.databinding.FragmentLoginBinding
+import com.sunitawebapp.learnmvvm.utils.DataLoad
+import com.sunitawebapp.learnmvvm.viewmodel.HomeViewModel
 
 
 class HomeFragment : Fragment() {
-
-
+    lateinit var binding: FragmentHomeBinding
+    lateinit var rvDetails : RecyclerView
+    var detailslist : MutableList<DetailsLists> =ArrayList();
+     val homeViewModel: HomeViewModel by viewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        arguments?.let {
 
-        }
     }
 
     override fun onCreateView(
@@ -23,25 +32,26 @@ class HomeFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_home, container, false)
+        binding = FragmentHomeBinding.inflate(inflater, container, false)
+        binding.apply {
+            return root
+        }
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment HomeFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            HomeFragment().apply {
-                arguments = Bundle().apply {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
-                }
-            }
+
+
+        homeViewModel.getDetailsList()
+        homeViewModel.detailsListslivedata.observe(viewLifecycleOwner){
+            it
+             var detailsAdap = DetailsAdapter(detailslist)
+              rvDetails.adapter=detailsAdap
+        }
+       // var detailsAdap =DetailsAdapter(detailslist,this)
+      //  rvDetails.adapter=detailsAdap
+     //   detailsAdap.notifyDataSetChanged()
     }
+
 }
