@@ -20,7 +20,6 @@ import com.sunitawebapp.learnmvvm.viewmodel.HomeViewModel
 class HomeFragment : Fragment() {
     lateinit var binding: FragmentHomeBinding
     lateinit var rvDetails : RecyclerView
-    var detailslist : MutableList<DetailsLists> =ArrayList();
      val homeViewModel: HomeViewModel by viewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,17 +40,13 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-
-
-        homeViewModel.getDetailsList()
-        homeViewModel.detailsListslivedata.observe(viewLifecycleOwner){
-            it
-             var detailsAdap = DetailsAdapter(detailslist)
-              rvDetails.adapter=detailsAdap
+        rvDetails=view.findViewById(R.id.rvDetails)
+        homeViewModel.getDetailsList().observe(viewLifecycleOwner){
+             var detailsAdap = DetailsAdapter(it)
+             rvDetails.adapter=detailsAdap
+             detailsAdap.notifyDataSetChanged()
         }
-       // var detailsAdap =DetailsAdapter(detailslist,this)
-      //  rvDetails.adapter=detailsAdap
-     //   detailsAdap.notifyDataSetChanged()
+
     }
 
 }
