@@ -22,6 +22,7 @@ class HomeFragment : Fragment() {
     lateinit var rvDetails : RecyclerView
      val homeViewModel: HomeViewModel by viewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
+
         super.onCreate(savedInstanceState)
 
     }
